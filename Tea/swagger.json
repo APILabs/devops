@@ -1,0 +1,70 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "Tea",
+    "version" : "1.0.0",
+    "description" : "Tea"
+  },
+  "paths" : {
+    "/index" : {
+      "post" : {
+        "operationId" : "postIndex",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert tea into the DB index",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "type" : "string"
+          },
+          "description" : "Tea name",
+          "required" : true
+        } ]
+      }
+    },
+    "/index/{id}" : {
+      "get" : {
+        "operationId" : "getIndex",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/teaType"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve from the index",
+        "parameters" : [ {
+          "name" : "uppercase",
+          "in" : "query",
+          "type" : "boolean"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "type" : "integer"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/tea/v1",
+  "definitions" : {
+    "teaType" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

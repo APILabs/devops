@@ -1,0 +1,5 @@
+RestAdminListener:
+  port: -1
+
+Defaults:
+  policyProject: 'TestPolicies'

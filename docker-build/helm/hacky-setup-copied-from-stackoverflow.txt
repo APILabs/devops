@@ -1,0 +1,30 @@
+Errors:
+
+tdolby@kenya:~/github.ibm.com/ace-ci-workspace/docker-build/helm$ helm install stable/mysql
+Error: no available release name found
+tdolby@kenya:~/github.ibm.com/ace-ci-workspace/docker-build/helm$ helm list                
+Error: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list resource "configmaps" in API group "" in the namespace "kube-system"
+
+
+Solution:
+
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --upgrade
+helm update repo
+
+
+When helm says
+
+NOTES:
+1. Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services gilded-kiwi-tea-chart)
+  export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT
+
+
+it is giving the internal IP instead of external; use
+
+export NODE_IP=`ibmcloud ks workers --cluster aceCluster | grep kube | cut -c50-68 | tr -d ' '`
+
+instead.
